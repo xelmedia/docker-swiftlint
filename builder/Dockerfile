@@ -1,5 +1,5 @@
-ARG BUILDER_IMAGE=swift
-ARG RUNTIME_IMAGE=swift
+ARG BUILDER_IMAGE=swift:5.6-focal
+ARG RUNTIME_IMAGE=swift:5.6-focal
 FROM ${BUILDER_IMAGE} AS builder
 
 RUN apt-get update && apt-get install -y \
@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     rm -r /var/lib/apt/lists/*
 
 # Install SwiftLint
-ARG SWIFTLINT_REVISION=master
+ARG SWIFTLINT_REVISION=0.46.5-multi-platform-docker
 RUN git clone --branch ${SWIFTLINT_REVISION} https://github.com/realm/SwiftLint.git && \
     cd SwiftLint && \
     swift build --configuration release -Xswiftc -static-stdlib -Xlinker -lCFURLSessionInterface -Xlinker -lCFXMLInterface -Xlinker -lcurl -Xlinker -lxml2 && \
